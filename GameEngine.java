@@ -7,7 +7,7 @@ public class GameEngine {
     private int playerWheat;
 
     public GameEngine(){
-        mapTiles = new Tile[10][10];
+        mapTiles = new Tile[30][20];
         playerTiles = new ArrayList<Tile>();
         fillMap();
         playerTiles.add(mapTiles[0][0]);
@@ -15,8 +15,8 @@ public class GameEngine {
     }
 
     private void fillMap(){
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
+        for(int i = 0; i < 30; i++){
+            for(int j = 0; j < 20; j++){
                 mapTiles[i][j] = new Tile(Terrain.PLAINS, i, j);
             }
         }
