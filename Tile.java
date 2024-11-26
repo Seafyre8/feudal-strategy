@@ -2,14 +2,24 @@ public class Tile{
 
     private Terrain terrain;
     private Building building;
+    private TileOwner owner;
     private int xcoord;
     private int ycoord;
 
     public Tile(Terrain terrain, int xcoord, int ycoord){
         this.terrain = terrain;
         building = null;
+        owner = TileOwner.NONE;
         this.xcoord = xcoord;
         this.ycoord = ycoord;
+    }
+
+    public TileOwner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(TileOwner owner) {
+        this.owner = owner;
     }
 
     public Terrain getTerrain() {

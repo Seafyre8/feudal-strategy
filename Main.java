@@ -14,43 +14,40 @@ import javafx.scene.paint.Color;
 public class Main extends Application{
 
     BorderPane gameBoard;
-
     GridPane gameMap;
-
     GameEngine gameEngine;
+    Rectangle[][] tileRectangles;
 
-    @SuppressWarnings("unused")
     @Override
     public void start(Stage stage) {
         gameBoard = new BorderPane();
         gameMap = new GridPane();
         gameEngine = new GameEngine();
+        tileRectangles = new Rectangle[30][20];
         gameMap.setPrefSize(960, 640);
         gameBoard.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(32, 0, 64, 0))));
-        for(int i = 0; i < 30; i++){
-            for(int j = 0; j < 20; j++){
-                Rectangle tile = new Rectangle(32, 32);
-                tile.setFill(null);
-                tile.setFill(colorPicker(gameEngine.getMapTiles()[i][j]));
-                tile.setStroke(Color.GRAY);
-                tile.setStrokeWidth(1);
-                tile.setStrokeType(StrokeType.INSIDE);
-                tile.setOnMouseEntered(event -> {
-                    tile.setStroke(Color.BLACK);
-                    tile.setStrokeWidth(2);
-                });
-                tile.setOnMouseExited(event ->{
-                    tile.setStroke(Color.GRAY);
-                tile.setStrokeWidth(1);
-                });
-                gameMap.add(tile, i, j);
-            }
-        }
+        buildMap();
         gameBoard.setCenter(gameMap);
         Scene scene = new Scene(gameBoard, 960, 736);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    private void buildMap(){
+        for(int i = 0; i < 30; i++){
+            for(int j = 0; j < 20; j++){
+                Rectangle tile = new Rectangle(32, 32);
+                tile.setFill(colorPicker(gameEngine.getMapTiles()[i][j]));
+                tile.setStrokeType(StrokeType.INSIDE);
+                setUpStroke(Color.GRAY, Color.BLACK, tile);
+                gameMap.add(tile, i, j);
+                tileRectangles[i][j] = tile;
+            }
+        }
+        setUpStrokeOwner(5, 5);
+        setUpStrokeOwner(5, 6);
+        setUpStrokeOwner(5, 7);
     }
 
     private Color colorPicker(Tile tile){
@@ -67,6 +64,52 @@ public class Main extends Application{
             return Color.PERU;
         }
         return Color.BLACK;
+    }
+
+    @SuppressWarnings("unused")
+    public void updateVisuals(int xcoord, int ycoord){
+        Tile tile = gameEngine.getMapTiles()[xcoord][ycoord];
+        Rectangle tileRectangle = tileRectangles[xcoord][ycoord];
+        if(tile.getOwner() == TileOwner.PLAYER){
+            tileRectangle.setStroke(Color.GRAY);
+            tileRectangle.setStrokeWidth(1);
+            tileRectangle.setStrokeType(StrokeType.INSIDE);
+            tileRectangle.setOnMouseEntered(event -> {
+                tileRectangle.setStroke(Color.BLACK);
+                tileRectangle.setStrokeWidth(2);
+                });
+                tileRectangle.setOnMouseExited(event ->{
+                    tileRectangle.setStroke(Color.GRAY);
+                    tileRectangle.setStrokeWidth(1);
+                });
+        }
+        
+    }
+
+    //TODO: make ownership clearer (wider stroke)
+    private void setUpStrokeOwner(int xcoord, int ycoord){
+        Tile tile = gameEngine.getMapTiles()[xcoord][ycoord];
+        Rectangle tileRectangle = tileRectangles[xcoord][ycoord];
+        if(tile.getOwner() == TileOwner.AI){
+            setUpStroke(Color.CRIMSON, Color.DARKRED, tileRectangle);
+        }
+        if(tile.getOwner() == TileOwner.PLAYER){
+            setUpStroke(Color.DODGERBLUE, Color.NAVY, tileRectangle);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    private void setUpStroke(Color unhoveredColor, Color hoveredColor, Rectangle tileRectangle){
+        tileRectangle.setStroke(unhoveredColor);
+            tileRectangle.setStrokeWidth(1);
+            tileRectangle.setOnMouseEntered(event -> {
+                tileRectangle.setStroke(hoveredColor);
+                tileRectangle.setStrokeWidth(2);
+            });
+            tileRectangle.setOnMouseExited(event ->{
+                tileRectangle.setStroke(unhoveredColor);
+                tileRectangle.setStrokeWidth(1);
+            });
     }
 
     public static void main(String[] args) {
