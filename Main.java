@@ -1,29 +1,35 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.paint.Color;
 
 public class Main extends Application{
-    
-    AnchorPane gameBoard = new AnchorPane();
 
-    GridPane gameMap = new GridPane();
+    BorderPane gameBoard;
 
-    GameEngine gameEngine = new GameEngine();
+    GridPane gameMap;
+
+    GameEngine gameEngine;
 
     @SuppressWarnings("unused")
     @Override
     public void start(Stage stage) {
-        gameMap.setStyle("-fx-border-color: black; -fx-border-width: 2;");
+        gameBoard = new BorderPane();
+        gameMap = new GridPane();
+        gameEngine = new GameEngine();
+        gameMap.setPrefSize(960, 640);
+        gameBoard.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(32, 0, 64, 0))));
         for(int i = 0; i < 30; i++){
             for(int j = 0; j < 20; j++){
-                Rectangle tile = new Rectangle(48, 48);
+                Rectangle tile = new Rectangle(32, 32);
                 tile.setFill(null);
                 tile.setFill(colorPicker(gameEngine.getMapTiles()[i][j]));
                 tile.setStroke(Color.GRAY);
@@ -40,23 +46,10 @@ public class Main extends Application{
                 gameMap.add(tile, i, j);
             }
         }
-        Rectangle topBorder = new Rectangle(1476, 16);
-        Rectangle leftBorder = new Rectangle(16, 960);
-        Rectangle rightBorder = new Rectangle(16, 960);
-        Rectangle bottomBorder = new Rectangle(1476, 32);
-        gameBoard.getChildren().addAll(topBorder, leftBorder, rightBorder, bottomBorder, gameMap);
-        AnchorPane.setTopAnchor(topBorder, 0.0);
-        AnchorPane.setLeftAnchor(topBorder, 0.0);
-        AnchorPane.setTopAnchor(leftBorder, 16.0);
-        AnchorPane.setLeftAnchor(leftBorder, 0.0);
-        AnchorPane.setTopAnchor(rightBorder, 16.0);
-        AnchorPane.setRightAnchor(rightBorder, 0.0);
-        AnchorPane.setBottomAnchor(bottomBorder, 0.0);
-        AnchorPane.setLeftAnchor(bottomBorder, 0.0);
-        AnchorPane.setTopAnchor(gameMap, 16.0);
-        AnchorPane.setLeftAnchor(gameMap, 16.0);
-        Scene scene = new Scene(gameBoard, 1476, 1008);
+        gameBoard.setCenter(gameMap);
+        Scene scene = new Scene(gameBoard, 960, 736);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 
