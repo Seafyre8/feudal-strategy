@@ -1,45 +1,93 @@
-# Feudal Strategy
+# Java Strategy Game
 
-A medieval strategy game about building and expanding your territory. Construct cities, farms, and other buildings while managing resources to grow your realm.
+A turn-based strategy game where players expand their territory, manage resources, and build their empire. Develop your land by constructing farms and villages while adapting your strategy to different terrain types.
 
-## Setup
+## Game Overview
 
-### Requirements
-- Java JDK 17+
-- JavaFX SDK 23.0.1 ([Download](https://openjfx.io/))
+Players start with a single tile and expand their territory by constructing buildings. Currently, players can build farms to produce wheat and establish villages. The game features an interactive 30x20 tile map with various terrain types that affect building placement.
 
-### Quick Start
-1. Clone the repository
-2. Download JavaFX SDK 23.0.1
-3. Remove `.example` from the following files and update the JavaFX paths:
-   - `.vscode/settings.json.example`
-   - `.vscode/launch.json.example`
-   - `run.bat.example`
-4. Update the paths in these files to point to your JavaFX SDK lib folder
-5. Run:
-   - Windows: Double-click `run.bat`
-   - VSCode: F5 or Run > Start Debugging
+## Current Features
 
-Note: Replace `<path-to-javafx>` in the configuration files with your JavaFX SDK lib folder path (e.g., `C:/Program Files/Java/javafx-sdk-23.0.1/lib`).
+### Map and Terrain
+- 30x20 interactive grid
+- Four terrain types:
+  - Plains: Basic buildable terrain
+  - Hills: Elevated terrain
+  - Water: Unbuildable terrain
+  - Forest: Wooded areas
 
-### VSCode Setup
-1. Install Extension Pack for Java
-2. Project should be ready to run (configurations included)
+### Buildings and Resources
+- Farms: Generate wheat each turn
+- Villages: Base settlement buildings
+- Resource system tracking wheat production
 
-## Project Structure
+### Interface
+- Visual tile-based map
+- Interactive hover effects
+- Terrain coloring system
+- Building placement system
+
+## Getting Started
+
+### Prerequisites
+- Java Development Kit (JDK) 17 or higher
+- JavaFX SDK 23.0.1
+- Git for cloning the repository
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone [your-repository-url]
+   ```
+2. Ensure JavaFX is properly configured in your development environment
+3. Run `Main.java` to start the game
+
+### Basic Gameplay
+1. Each game starts with a single controlled tile
+2. Click on tiles to view information
+3. Build farms to generate wheat each turn
+4. Buildings can only be placed on valid terrain (not water)
+5. Each tile can hold one building maximum
+
+## Technical Structure
+
+### Core Components
 ```
-feudal-strategy/
-├── lib/            # JavaFX JAR files
-├── src/           # Source code
-├── .vscode/       # VSCode configuration
-└── run.bat        # Run script
+src/
+├── Building.java       # Building type enumeration
+├── GameEngine.java     # Core game logic
+├── Main.java          # JavaFX application and UI
+├── RunGame.java       # Game launcher
+├── Terrain.java       # Terrain type enumeration
+└── Tile.java          # Tile class definition
 ```
+
+### Key Classes
+- **GameEngine**: Manages game state, resource production, and building placement
+- **Tile**: Handles individual map tile properties and states
+- **Main**: Controls the JavaFX interface and user interactions
 
 ## Planned Features
-- City building and expansion
-- Resource management
-- Building system (farms, mines, etc.)
-- Territory expansion mechanics
 
-## Contributing
-Project is in early development. Issues and contributions welcome!
+### Resources
+- Multiple resource types beyond wheat
+- Resource gathering and management
+- Resource trading mechanics
+
+### Buildings
+- Additional building types with unique functions
+- Building upgrade systems
+- Different building effects based on terrain
+
+### Combat
+- Unit creation and management
+- Battle mechanics
+- Territory conquest
+
+### Computer Opponents
+- AI-controlled adversaries
+- Strategic decision-making
+
+## Development
+
+This project is under active development. Feel free to check the repository for updates and new features.
