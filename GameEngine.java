@@ -1,22 +1,20 @@
-import java.util.HashMap;
+// import java.util.HashMap;
 
 public class GameEngine {
     
     private Tile[][] mapTiles;
-    private HashMap<Building, Resource> buildingResources;
-    private int playerWheat;
-    private int aiWheat;
+    // private HashMap<Building, Resource> buildingResources;
+    private int playerGold;
+    private int aiGold;
 
     public GameEngine(){
         mapTiles = new Tile[30][20];
-        buildingResources = new HashMap<Building, Resource>();
+        // buildingResources = new HashMap<Building, Resource>();
         fillMap();
-        fillResourceMap();
-        mapTiles[5][5].setOwner(TileOwner.PLAYER);
-        mapTiles[5][6].setOwner(TileOwner.PLAYER);
-        mapTiles[5][7].setOwner(TileOwner.PLAYER);
-        playerWheat = 0;
-        aiWheat = 0;
+        // fillResourceMap();
+
+        playerGold = 0;
+        aiGold = 0;
     }
 
     private void fillMap(){
@@ -25,21 +23,22 @@ public class GameEngine {
                 mapTiles[i][j] = new Tile(Terrain.PLAINS, i, j);
             }
         }
-        for(int i = 4; i < 12; i++){
-            for(int j = 0; j < 7; j++){
-                mapTiles[i][j].setTerrain(Terrain.FOREST);
-            }
-        }
-        for(int i = 23; i < 30; i++){
-            for(int j = 16; j < 20; j++){
-                mapTiles[i][j].setTerrain(Terrain.WATER);
+        fillRegionBuilder(4, 12, 0, 3, Terrain.FOREST);
+        fillRegionBuilder(23, 30, 16, 20, Terrain.WATER);
+        mapTiles[6][4].setOwner(TileOwner.PLAYER);
+    }
+
+    private void fillRegionBuilder(int startx, int endx, int starty, int endy, Terrain terrain){
+        for(int i = startx; i < endx; i++){
+            for(int j = starty; j < endy; j++){
+                mapTiles[i][j].setTerrain(terrain);
             }
         }
     }
 
-    private void fillResourceMap(){
-        buildingResources.put(Building.FARM, Resource.WHEAT);
-    }
+    // private void fillResourceMap(){
+    //     buildingResources.put(Building.FARM, Resource.WHEAT);
+    // }
 
     public String build(int xcoord, int ycoord, Building building, TileOwner owner){
         checkCoords(xcoord, ycoord);
@@ -62,16 +61,16 @@ public class GameEngine {
             for(int j = 0; j < 20; j++){
                 Tile tile = mapTiles[i][j];
                 if(tile.getBuilding() != null){
-                    Resource resource = buildingResources.get(tile.getBuilding());
+                    // Resource resource = buildingResources.get(tile.getBuilding());
                     if(tile.getOwner() == TileOwner.PLAYER){
-                        if(resource == Resource.WHEAT){
-                            playerWheat++;
-                        }
+                        // if(resource == Resource.WHEAT){
+                            playerGold++;
+                        // }
                     }
                     if(tile.getOwner()==TileOwner.AI){
-                        if(resource == Resource.WHEAT){
-                            aiWheat++;
-                        }
+                        // if(resource == Resource.WHEAT){
+                            aiGold++;
+                        // }
                     }
                 }
                 
@@ -79,13 +78,13 @@ public class GameEngine {
         }
     }
 
-    public HashMap<Building, Resource> getBuildingResources() {
-        return buildingResources;
-    }
+    // public HashMap<Building, Resource> getBuildingResources() {
+    //     return buildingResources;
+    // }
 
-    public void setBuildingResources(HashMap<Building, Resource> buildingResources) {
-        this.buildingResources = buildingResources;
-    }
+    // public void setBuildingResources(HashMap<Building, Resource> buildingResources) {
+    //     this.buildingResources = buildingResources;
+    // }
 
 
     public Tile[][] getMapTiles() {
@@ -96,20 +95,20 @@ public class GameEngine {
         this.mapTiles = mapTiles;
     }
 
-    public int getPlayerWheat() {
-        return playerWheat;
+    public int getPlayerGold() {
+        return playerGold;
     }
 
-    public void setPlayerWheat(int playerWheat) {
-        this.playerWheat = playerWheat;
+    public void setPlayerGold(int playerGold) {
+        this.playerGold = playerGold;
     }
 
-    public int getAiWheat() {
-        return aiWheat;
+    public int getAiGold() {
+        return aiGold;
     }
 
-    public void setAiWheat(int aiWheat) {
-        this.aiWheat = aiWheat;
+    public void setAiGold(int aiGold) {
+        this.aiGold = aiGold;
     }
 
     public String getTileToString(int xcoord, int ycoord){
